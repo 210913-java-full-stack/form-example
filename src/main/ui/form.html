@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="myForm" >
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">Short description</label>
+        <input type="text" id="description" name="description" required>
+
+        <label for="task">Task</label>
+        <textarea id="task" name="task" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const form = document.getElementById("myForm");
+
+        form.addEventListener("submit", function(event){
+            event.preventDefault();
+            const { name, description, task } = event.target.elements;
+            console.log(name.value + ", " +  description.value + ", " + task.value);
+            submitForm(name.value, description.value, task.value);
+        });
+
+        async function submitForm(name, description, value) {
+            let formObject = {
+                name: name,
+                description: description,
+                value: value
+            }
+
+            let response = await fetch("http://localhost:8080/form-example/form", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formObject)
+            });
+            let json = response.json();
+
+        }
+    </script>
+</body>
+</html>
